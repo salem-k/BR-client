@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 var battelierrecords = angular.module('starter', ['ionic','ionic.service.core','ngCordova', 'ionic.service.push'])
 
-.run(function($ionicPlatform,$ionicPush,$rootScope) {
+.run(function($ionicPlatform,$ionicPush,$rootScope,eventService) {
 
   $ionicPlatform.ready(function() {
  events = new Object();
@@ -15,14 +15,35 @@ var battelierrecords = angular.module('starter', ['ionic','ionic.service.core','
     $ionicPush.init({
       "debug": true,
       "onNotification": function(notification) {
-          var payload = notification.payload;
-          addEvent(events, notification, function(events){
-            execOperation(events, 0, function(){});
+        //console.log(notification, payload);
+
+//alert(notification.title);
+console.warn(notification);
+console.warn(JSON.stringify(notification));
+        var str = notification.text
+        if(str.substring(0, 3)  != "###"){
+//        var str = "fsqfdq;2010-01-01 00:00:00;2010-01-01 00:00:00;Couleur;FF0000;fsqfdq";
+        events = str.split(";")
+        var eventObj = new Object();
+
+        eventObj.id = events[0];
+        eventObj.start_time = events[1];
+        eventObj.end_time = events[2];
+        eventObj.type = events[3];
+        eventObj.content = events[4];
+        eventObj.comment = events[5];
+
+        eventService.add(eventService.all(), eventObj, function(events){
+            eventService.execOperation(events, 0, function(){});
           });
-          alert(JSON.stringify(notification));
-          console.log(notification, payload);
+
+
+        }else{
+          alert(notification.title +" : "+notification.text);
+        }
       },
       "onRegister": function(data) {
+/*
             // this will give you a fresh user or the previously saved 'current user'
             var user = Ionic.User.current();
             // if the user doesn't have an id, you'll need to give it one.
@@ -32,9 +53,12 @@ var battelierrecords = angular.module('starter', ['ionic','ionic.service.core','
             }
             //persist the user
             user.save();
-            $rootScope.token = data.token;
+
+*/
+            localStorage.setItem('token',data.token);
+
             //alert('register');
-          console.log(data.token);
+          console.log("#########"+data.token);
       }
     });
     $ionicPush.register();
@@ -74,5 +98,8 @@ var battelierrecords = angular.module('starter', ['ionic','ionic.service.core','
                 }
               }
             });
-  $urlRouterProvider.otherwise('/login');
+
+$urlRouterProvider.otherwise('/login');
+
+
 });

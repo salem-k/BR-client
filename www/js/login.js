@@ -1,14 +1,18 @@
 battelierrecords.controller('battelierRecordsCtrl', function($scope,$http, $state,$ionicLoading,$rootScope) {
 
+  setTimeout(function(){
+
   if( localStorage.getItem('email')  != null && localStorage.getItem('token') != null ){
-      doLogin(localStorage.getItem('firstName'),localStorage.getItem('lastName'),localStorage.getItem('email'),$rootScope.token);
+      doLogin(localStorage.getItem('firstName'),localStorage.getItem('lastName'),localStorage.getItem('email'),localStorage.getItem('token'));
   }
+
+  }, 3000);
 
   $scope.login = function() {
     lastName = $scope.login.lastName;
     firstName = $scope.login.firstName;
     email = $scope.login.email;
-    token = $scope.token;
+    token = localStorage.getItem('token');
 
     doLogin(firstName,lastName,email,token);
 
@@ -41,10 +45,10 @@ function doLogin(firstName,lastName,email,token){
      }
    }).then(function successCallback(response) {
 
-        localStorage.setItem('lastName',$scope.login.lastName);
-        localStorage.setItem('firstName',$scope.login.firstName);
-        localStorage.setItem('email',$scope.login.email);
-        localStorage.setItem('token',$scope.token);
+        localStorage.setItem('lastName',lastName);
+        localStorage.setItem('firstName',firstName);
+        localStorage.setItem('email',email);
+        localStorage.setItem('token',token);
 
         console.log('success'+JSON.stringify(response));
 
