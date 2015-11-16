@@ -1,7 +1,7 @@
 {
   "name": "clientfinal",
   "version": "1.0.0",
-  "description": "clientFINAL: An Ionic project",
+  "description": "Batelier Records",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
@@ -21,7 +21,13 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "phonegap-plugin-push"
+    "phonegap-plugin-push",
+    "cordova-plugin-device@1.0.1",
+    "cordova-plugin-splashscreen@2.1.0",
+    "cordova-plugin-statusbar@1.0.1",
+    "cordova-plugin-whitelist@1.0.0",
+    "ionic-plugin-keyboard@1.0.7",
+    "phonegap-plugin-push@1.4.0"
   ],
   "cordovaPlatforms": [
     "ios",
