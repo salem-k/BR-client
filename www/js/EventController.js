@@ -37,7 +37,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
 
                     HomeService.fileExist(image, function(fileName) {
                         if ("404" == fileName) {
-                            //HomeService.downloadImg(image, "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + image, function(imgURL) { //prod
+                            // HomeService.downloadImg(image, "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + image, function(imgURL) { //prod
                             HomeService.downloadImg(image, "http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + image, function(imgURL) { //dev
                                 if (imgDisplaying != imgURL) {
                                     $scope.imgSrc = imgURL + "?" + new Date().getTime();
@@ -58,7 +58,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 if (sound != '') {
                     HomeService.fileExist(sound, function(fileName) {
                         if ("404" == fileName) {
-                            //HomeService.downloadImg(sound, "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + sound, function(mp3URL) { //prod
+                            // HomeService.downloadImg(sound, "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + sound, function(mp3URL) { //prod
                             HomeService.downloadImg(sound, "http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + sound, function(mp3URL) { //dev
 
                                 var media = new Media(mp3URL, null, null, mediaStatusCallback);

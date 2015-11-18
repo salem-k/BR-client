@@ -27,7 +27,14 @@
     "cordova-plugin-statusbar@1.0.1",
     "cordova-plugin-whitelist@1.0.0",
     "ionic-plugin-keyboard@1.0.7",
-    "phonegap-plugin-push@1.4.0"
+    "phonegap-plugin-push@1.4.0",
+    "cordova-plugin-file-transfer@1.2.1",
+    "cordova-plugin-file@2.1.0",
+    "org.apache.cordova.media@0.2.16",
+    {
+      "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+      "id": "nl.x-services.plugins.insomnia"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

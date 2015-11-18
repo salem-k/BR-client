@@ -2,7 +2,7 @@ appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTran
 
     var getOperation = function() {
         var request = {
-          //  url: "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/operation/operation.txt?tmp="+ (new Date().getTime()), //prod
+           //url: "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/operation/operation.txt?tmp="+ (new Date().getTime()), //prod
             url: "http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/operation/operation.txt?tmp="+ (new Date().getTime()), //dev
             method: "GET",
             cache: false,
@@ -110,7 +110,7 @@ appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTran
 }).factory("RunService",function($http){
   var register = function(deviceId, deviceToken){
     registerRequest = {
-      //  url : " http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/app_dev.php/register/create",  //prod
+        //url : " http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/app_dev.php/register/create",  //prod
         url : " http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/app_dev.php/register/create", //dev
         method : "POST",
         data : {

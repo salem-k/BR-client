@@ -9,7 +9,7 @@ var appContext = angular.module('starter', ['ionic','ionic.service.core','ngCord
 
   $ionicPlatform.ready(function() {
 
-
+    window.plugins.insomnia.keepAwake();
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

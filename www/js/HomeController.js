@@ -1,8 +1,8 @@
-appContext.controller("HomeController", function($scope, $state, $ionicPush, RunService, $cordovaDevice, $ionicLoading, $rootScope, $ionicPlatform) {
+appContext.controller("HomeController", function($scope, $state, $ionicPush, RunService, $cordovaDevice, $ionicLoading, $rootScope, $ionicPlatform, $ionicPopup) {
 
 
 
-
+  var popup ;
 $ionicPlatform.ready(function() {
     $ionicLoading.show({
          template: 'Loading...'
@@ -10,9 +10,14 @@ $ionicPlatform.ready(function() {
     //********************
       Ionic.io();
       $ionicPush.init({
-        "debug": true,
+        "debug": false,
         "onNotification": function(notification) {
-            alert(JSON.stringify(notification));
+          console.warn(JSON.stringify(notification));
+            popup =  $ionicPopup.show({
+           template: '<h4 style="text-align: center;vertical-align: middle; display:block ">'+notification.text+'<h4/><br><a class="button button-full" style="font-weight: bolder;" id="bwlogin" ng-click="ok()">Ok</a>',
+           scope: $scope,
+           title: "Batelier Records"
+          });
         },
         "onRegister": function(data) {
               var deviceToken ;
@@ -39,5 +44,8 @@ $ionicPlatform.ready(function() {
     };
     $rootScope.cancel = function() {
         $ionicLoading.hide();
+    };
+    $scope.ok = function() {
+        popup.close();
     };
 });
