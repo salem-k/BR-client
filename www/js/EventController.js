@@ -11,6 +11,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
     var formPopup;
     var formName ;
     $scope.isForm = false;
+    $scope.isCountdown = false;
 
     $ionicPlatform.ready(function() {
       $scope.height = $window.innerHeight;
@@ -35,14 +36,20 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
             $scope.textColor = data[2];
             $scope.bgColor = data[3];
 
-            if ("FORM" == label) {
+            //COUNTDOWN
+            if("COUNTDOWN" == label.toUpperCase()){
+
+              
+
+            }//formulaire
+            else if ("FORM" == label.toUpperCase()) {
 
               $scope.text = "";
               $scope.show = false;
+              $scope.bgColor ="#FFFFFF";
 
-
-              if( null == localStorage.getItem(text) ){
-                formName = text;
+              if( null == localStorage.getItem(text.toUpperCase()) ){
+                formName = text.toUpperCase();
                 console.warn(text);
                 $scope.eventName = text;
 
@@ -52,7 +59,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 var lastname = localStorage.getItem("lastname");
                 var email = localStorage.getItem("email");
 
-                if ("" != firstname)
+                if ("" != firstname )
                   $scope.firstname = firstname;
                 if ("" != lastname)
                   $scope.lastname = lastname;
@@ -320,7 +327,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
 
           }).error(function(data, status, headers, config, statusText){
             console.warn("--------------------------- ");
-              callServer();
+              //callServer();
           })
     }
 
@@ -335,20 +342,21 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
         }
     }
 
-    $scope.signup = function(firstname, lastname, email){
+    $scope.signup = function(signupForm){
 
-      console.warn(firstname);
-      if ( undefined != firstname && undefined != lastname && undefined != email && validateEmail(email) ) {
+console.log(signupForm.lastname);
+      $scope.submitted = true;
+      console.warn(signupForm.lastname.$modelValue);
+      if ( signupForm.$valid) {
 
         $ionicLoading.show({
            template: 'Loading...'
          });
 
-          localStorage.setItem('lastname', lastname);
-          localStorage.setItem('firstname', firstname);
-          localStorage.setItem('email', email);
-          alert(localStorage.getItem("deviceId"));
-          RunService.register( localStorage.getItem("deviceToken"), localStorage.getItem("deviceId"), firstname, lastname, email)
+          localStorage.setItem('lastname', signupForm.lastname.$modelValue);
+          localStorage.setItem('firstname', signupForm.firstname.$modelValue);
+          localStorage.setItem('email', signupForm.email.$modelValue);
+          RunService.register( localStorage.getItem("deviceToken"), localStorage.getItem("deviceId"), signupForm.firstname.$modelValue, signupForm.lastname.$modelValue, signupForm.email.$modelValue)
               .success(function(response, status, headers, config) {
                   localStorage.setItem(formName,formName);
                   $scope.alreadySigned = true;

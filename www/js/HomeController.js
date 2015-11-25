@@ -13,6 +13,7 @@ appContext.controller("HomeController",
 
       var signupPopup ;
       var popup;
+      var netErr;
 
      $ionicPlatform.ready(function() {
 
@@ -35,7 +36,7 @@ appContext.controller("HomeController",
             },
             "onRegister": function(data) {
                 var deviceToken;
-                deviceToken = $cordovaDevice.getUUID();
+                //deviceToken = $cordovaDevice.getUUID();
                 localStorage.setItem('deviceId', data.token);
                 localStorage.setItem('deviceToken', deviceToken);
                 RunService.register(deviceToken, data.token, "", "", "")
@@ -43,7 +44,11 @@ appContext.controller("HomeController",
                         $ionicLoading.hide();
                     }).error(function(response) {
                         $ionicLoading.hide();
-                        alert("Network Error");
+                        netErr = $ionicPopup.show({
+                            template: '<h4 style="text-align: center;vertical-align: middle; display:block ">Network Error <h4/><br><a class="button button-full" style="font-weight: bolder;" id="bwlogin" ng-click="ok()">Ok</a>',
+                            scope: $scope,
+                            title: "Batelier Records"
+                        });
                     });
             }
         });
@@ -62,7 +67,10 @@ appContext.controller("HomeController",
     };
 
     $scope.ok = function() {
+      if ("undefined" !== typeof(popup) )
         popup.close();
+        if ("undefined" !== typeof(netErr) )
+        netErr.close();
     };
 
 });
