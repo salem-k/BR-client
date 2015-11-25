@@ -37,3 +37,16 @@ color: rgb(255, 255, 255);
 height: 100% !important;
 
 }
+/*
+.rotate90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    height: 60%;
+width: 167%;
+margin-top: 33.55%;
+margin-left: -33.551280%;
+}
+*/

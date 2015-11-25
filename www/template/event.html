@@ -1,10 +1,43 @@
 <ion-view  ng-controller="EventController" ng-style="{'background-color':bgColor }">
   <ion-content>
-  <!--   <button ng-click="play()" class="button">click </button>  -->
-   <img style="height:100%;width:100%;" ng-if="show" ng-src="{{ imgSrc }}" />
-    <p  ng-style="{'color':textcolor }">
+    <!-- Normal Events-->
+    <div  ng-if=" ! isForm">
+
+   <img class="rotate90"  ng-if="show" height="{{height}}" width="{{width}}" ng-src="{{ imgSrc }}" />
+    <p  ng-style="{'color' : textColor }">
       {{text}}
     </p>
     <label style="display:none">{{soundPlaying}}</label>
-  </ion-content>
+    </div>
+
+    <!-- FORM Events -->
+    <div  ng-if=" isForm && ! alreadySigned" >
+      <h2 style="text-align: center;vertical-align: middle; display:block;margin-top: 10%;margin-bottom: 10%;">  subscription for {{eventName}} <h2/>
+      <div class="list list-inset">
+       <label class="item item-input">
+         <span class="input-label">First name</span>
+         <input type="text" ng-model="firstname"  >
+       </label>
+       <label class="item item-input">
+         <span class="input-label">Last name</span>
+         <input type="text" ng-model="lastname">
+       </label>
+       <label class="item item-input">
+         <span class="input-label">Email</span>
+         <input type="text" ng-model="email">
+       </label>
+     </div>
+     <div class="padding">
+       <button ng-click="signup(firstname, lastname, email)" class="button button-block button-positive">
+         <span >Sign up</span>
+       </button>
+     </div>
+    </div>
+    <div ng-if="isForm && alreadySigned" style="background-color :white; margin-top: 71%;">
+      <p style="color:black; font-size:200%;">
+        already subscribted to {{ eventName }} event, just wait the awesome !
+      </p>
+    </div>
+
+  </ion-content >
 </ion-view>

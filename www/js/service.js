@@ -1,9 +1,9 @@
-appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTransfer) {
+appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTransfer, $q) {
 
     var getOperation = function() {
         var request = {
-           //url: "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/operation/operation.txt?tmp="+ (new Date().getTime()), //prod
-            url: "http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/operation/operation.txt?tmp="+ (new Date().getTime()), //dev
+            url: "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/operation/operation.txt?tmp="+ (new Date().getTime()), //prod
+            //url: "http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/operation/operation.txt?tmp="+ (new Date().getTime()), //dev
             method: "GET",
             cache: false,
             transformResponse: function(data) {
@@ -20,33 +20,34 @@ appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTran
      * check if file exist
      */
     var fileExist = function(fileName, callBack) {
+      isImage('./img/'+fileName).then(function(exist) {
+          if (exist) {
+            callBack('./img/'+fileName);
+          } else {
+            if (window.cordova) {
+                if (/Android|BlackBerry Mini/i.test(navigator.userAgent)) {
+                    path = cordova.file.applicationStorageDirectory;
+                } else if (ionic.Platform.isWindowsPhone()) {
+                    path = "//";
+                } else {
+                    path = cordova.file.documentsDirectory;
+                }
 
-        if (window.cordova) {
-            if (/Android|BlackBerry Mini/i.test(navigator.userAgent)) {
-                path = cordova.file.applicationStorageDirectory;
-            } else if (ionic.Platform.isWindowsPhone()) {
-                path = "//";
-            } else {
-                path = cordova.file.documentsDirectory;
-            }
-
-            $cordovaFile.checkFile(path, fileName)
-                .then(function(success) {
-                    // success
-                    if (window.localStorage.getItem('encours' + fileName)) {
+                $cordovaFile.checkFile(path, fileName)
+                    .then(function(success) {
+                            callBack(success.nativeURL);
+                    }, function(error) {
+                        // error
                         callBack("404");
-                    } else {
-                        callBack(success.nativeURL);
-                    }
 
-                }, function(error) {
-                    // error
-                    callBack("404");
+                    });
+            }else{
+              callBack("img/ionic.png");
+            }
+          }
+      });
 
-                });
-        }else{
-          callBack("img/ionic.png");
-        }
+
 
     };
 
@@ -98,24 +99,42 @@ appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTran
         }
     };
 
+var isImage = function(src) {
 
+    var deferred = $q.defer();
+
+    var image = new Image();
+    image.onerror = function() {
+        deferred.resolve(false);
+    };
+    image.onload = function() {
+        deferred.resolve(true);
+    };
+    image.src = src;
+
+    return deferred.promise;
+};
 
     return {
         getOperation: getOperation,
         fileExist: fileExist,
         downloadImg : downloadImg,
+        isImage  : isImage
 
     }
 
 }).factory("RunService",function($http){
-  var register = function(deviceId, deviceToken){
+  var register = function(deviceId, deviceToken, fName, lName, email){
     registerRequest = {
-        //url : " http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/app_dev.php/register/create",  //prod
-        url : " http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/app_dev.php/register/create", //dev
+        url : " http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/app_dev.php/register/create",  //prod
+      //  url : " http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/app_dev.php/register/create", //dev
         method : "POST",
         data : {
           deviceId : deviceId,
-          deviceToken : deviceToken
+          deviceToken : deviceToken,
+          firstname : fName,
+          lastname : lName,
+          email : email
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -127,6 +146,7 @@ appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTran
                     + encodeURIComponent(obj[p]));
           return str.join("&");
         },
+        timeout : 2000
     };
     return $http(registerRequest);
   };
