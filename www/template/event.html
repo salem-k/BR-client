@@ -11,70 +11,77 @@
     </div>
 
     <!-- FORM Events -->
-    <form name="signupForm" ng-if=" isForm && ! alreadySigned" ng-submitted>
-    <div >
-      <h2 style="text-align: center;vertical-align: middle; display:block;margin-top: 10%;margin-bottom: 10%;">  subscription for {{eventName}} <h2/>
-      <div class="list list-inset">
-       <label class="item item-input"    ng-class="{ 'has-error-lr' : signupForm.firstname.$invalid  && submitted, 'valid-lr' : signupForm.firstname.$valid  && submitted}">
-         <span class="input-label">First name</span>
-         <input type="text"
-                name="firstname"
-                ng-model="firstname"
-                ng-minlength="3"
-                ng-maxlength="20"
-                required />
+    <form name="signupForm" ng-if=" isForm && ! alreadySigned" ng-submitted style="height:100%">
+    <div  style="height:100%">
+      <h2  class="signup-h2"> Sign up </h2>
+      <div class="list list-inset" style=" margin-top: 65px;">
 
-       </label>
-       <label class="item item-input"  ng-class="{ 'has-error-lr' : signupForm.lastname.$invalid  && submitted, 'valid-lr' : signupForm.lastname.$valid  && submitted}">
-         <span class="input-label" >Last name</span>
-         <input type="text" ng-model="lastname"
-                name="lastname"
-                ng-minlength="3"
-                ng-maxlength="20"
+
+
+       <span class="input-label" >FULL NAME</span>
+       <label class="item item-input"  ng-class="{ 'has-error-lr' : signupForm.fullname.$invalid  && submitted, 'valid-lr' : signupForm.fullname.$valid  && submitted}">
+
+         <input type="text" ng-model="fullname" ng-blur="blur()" ng-focus="focus()"
+                name="fullname"
+                ng-minlength="6"
                 required />
        </label>
+        <span class="input-label">EMAIL</span>
        <label class="item item-input" ng-class="{ 'has-error-lr' : signupForm.email.$invalid  && submitted, 'valid-lr' : signupForm.email.$valid  && submitted }">
-         <span class="input-label">Email</span>
-         <input type="email"
+
+         <input type="email" ng-blur="blur()" ng-focus="focus()"
                 name="email"
                 ng-model="email"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                 required />
        </label>
-     </div>
-     <div class="padding">
-       <input type="submit" ng-click="signup(signupForm)" class="button button-block button-positive" >
 
+       <span class="input-label">PHONE</span>
+       <label class="item item-input"    ng-class="{ 'has-error-lr' : signupForm.phone.$invalid  && submitted, 'valid-lr' : signupForm.phone.$valid  && submitted}">
+        <input type="text" ng-blur="blur()" ng-focus="focus()"
+               name="phone"
+               ng-model="phone"
+               ng-maxlength="15"
+               required />
+      </label>
+     </div>
+     <div ng-if="focused" class="padding" style="position: fixed;width: 100%;bottom: 0;">
+       <input  type="submit" value="Create" ng-click="signup(signupForm)" class="button btnFooter button-block button-positive" style="margin-bottom: 15px;" >
      </div>
     </div>
     </form>
     <!-- already subscribed -->
-    <div ng-if="isForm && alreadySigned" style="background-color :white; margin-top: 71%;">
-      <p style="color:black; font-size:200%;">
-        already subscribed to {{ eventName }} event, just wait the awesome !
+    <div ng-if="isForm &&  alreadySigned" class="alreadySigned" >
+      <h2 align="center" class="nasa-rodina">NA&#352;A RODINA</h2>
+      <p >
+        21:00 - 21:50 : N30 Akustika
+      </p>
+      <p >
+        22:05 - 23:00 : Riddim Colony
+      </p>
+      <p >
+        23:15 - 00:30 : UNITED FLAVOUR
+      </p>
+      <p >
+        00:30 - 01:15 : JAH OVA EVIL & MELLOW MOOD
+      </p>
+      <p >
+        01:30 - 02:15 : Fireson Bantu (KE)
+      </p>
+      <p >
+        02:15 - 02:45 : Balans
+      </p>
+      <p >
+        02:45 - 05:00 Natty youth sound
       </p>
     </div>
-<!-- ***********************
-<form name="signupForm" ng-if=" isForm && ! alreadySigned" >
+    <div ng-if="isForm &&  alreadySigned" class="countdonw">
+      <div>
 
-  <label>
-    Enter your name:
-    <input type="text"
-           name="myName"
-           ng-model="name"
-           ng-minlength="5"
-           ng-maxlength="20"
-           required />
-  </label>
-  <pre>signupForm.myName.$error = {{ signupForm.myName.$error | json }}</pre>
+        <h1 align="center" class="party-start" >party start in </h1>
+        <h1 align="center" class="counter"> {{diffTime | countdonw}}</h1>
+      </div>
+    </div>
 
-  <div ng-messages="signupForm.myName.$error" style="color:maroon" role="alert">
-    <div ng-message="required">You did not enter a field</div>
-    <div ng-message="minlength">Your field is too short</div>
-    <div ng-message="maxlength">Your field is too long</div>
-  </div>
-</form>
-
--->
   </ion-content >
 </ion-view>

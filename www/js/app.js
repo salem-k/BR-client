@@ -8,8 +8,10 @@ var appContext = angular.module('starter', ['ionic','ionic.service.core','ngCord
 .run(function($ionicPlatform,$ionicPush) {
 
   $ionicPlatform.ready(function() {
-
-    //window.plugins.insomnia.keepAwake();
+    window.addEventListener('native.keyboardshow', function(){
+      document.body.classList.add('keyboard-open');
+    });
+    window.plugins.insomnia.keepAwake();
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -35,4 +37,29 @@ var appContext = angular.module('starter', ['ionic','ionic.service.core','ngCord
        })
 
    $urlRouterProvider.otherwise("/home");
+}).filter("countdonw", function() {
+
+  //Defining the filter function
+return function(input) {
+
+  var result = "";
+  input = input || 0;
+
+  try {
+      var hours = ( (input / 1000) /60)  / 60;
+      var minutes =  (hours - parseInt( hours) )*60;
+      var secondes = (minutes - parseInt(minutes)) * 60;
+      if (0 == parseInt( hours) && 0 == parseInt(minutes) && 0 == parseInt(secondes)) {
+        return 0;
+      } else {
+        result = parseInt(hours) + "h"+parseInt(minutes);
+        return result;
+      }
+
+
+  } catch (e) {
+      console.error(e);
+      return input;
+  }
+};
 });

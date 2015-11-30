@@ -12,6 +12,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
     var formName ;
     $scope.isForm = false;
     $scope.isCountdown = false;
+    $scope.focused = true;
 
     $ionicPlatform.ready(function() {
       $scope.height = $window.innerHeight;
@@ -33,16 +34,13 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
             var text = data[1];
             var image = data[4];
             var sound = data[5];
+            var partyTime = data[6];
+
             $scope.textColor = data[2];
             $scope.bgColor = data[3];
 
-            //COUNTDOWN
-            if("COUNTDOWN" == label.toUpperCase()){
-
-              
-
-            }//formulaire
-            else if ("FORM" == label.toUpperCase()) {
+            //Form
+            if ("FORM" == label.toUpperCase()) {
 
               $scope.text = "";
               $scope.show = false;
@@ -55,26 +53,34 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
 
                 $scope.alreadySigned = false;
 
-                var firstname = localStorage.getItem("firstname");
-                var lastname = localStorage.getItem("lastname");
+                var fullname = localStorage.getItem("fullname");
                 var email = localStorage.getItem("email");
+                var phone = localStorage.getItem("phone");
 
-                if ("" != firstname )
-                  $scope.firstname = firstname;
-                if ("" != lastname)
-                  $scope.lastname = lastname;
+                if ("" != fullname )
+                  $scope.fullname = fullname;
+                if ("" != phone)
+                  $scope.phone = phone;
                 if ("" != email)
                   $scope.email = email;
 
+                  callServer();
               }else {
-                $scope.eventName = localStorage.getItem(text) ;
-                $scope.alreadySigned = true;
 
+                $scope.eventName = localStorage.getItem(text);
 
+                $scope.diffTime  =  Math.abs(partyTime*1000 - new Date().getTime());
+
+                    $interval(function() {
+                    $scope.diffTime = $scope.diffTime - 1000;
+                    }, 1000);
+
+                   $scope.alreadySigned = true;
+                   callServer();
               }
               $scope.isForm = true ;
 
-              callServer();
+
 
             }else if ("" != text && "" == image && "" != sound) {
                 $scope.text = text;
@@ -327,7 +333,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
 
           }).error(function(data, status, headers, config, statusText){
             console.warn("--------------------------- ");
-              //callServer();
+              callServer();
           })
     }
 
@@ -346,17 +352,16 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
 
 console.log(signupForm.lastname);
       $scope.submitted = true;
-      console.warn(signupForm.lastname.$modelValue);
       if ( signupForm.$valid) {
 
         $ionicLoading.show({
            template: 'Loading...'
          });
 
-          localStorage.setItem('lastname', signupForm.lastname.$modelValue);
-          localStorage.setItem('firstname', signupForm.firstname.$modelValue);
+          localStorage.setItem('fullname', signupForm.fullname.$modelValue);
+          localStorage.setItem('phone', signupForm.phone.$modelValue);
           localStorage.setItem('email', signupForm.email.$modelValue);
-          RunService.register( localStorage.getItem("deviceToken"), localStorage.getItem("deviceId"), signupForm.firstname.$modelValue, signupForm.lastname.$modelValue, signupForm.email.$modelValue)
+          RunService.register( localStorage.getItem("deviceToken"), localStorage.getItem("deviceId"), signupForm.fullname.$modelValue, signupForm.phone.$modelValue, signupForm.email.$modelValue)
               .success(function(response, status, headers, config) {
                   localStorage.setItem(formName,formName);
                   $scope.alreadySigned = true;
@@ -378,6 +383,16 @@ console.log(signupForm.lastname);
     $scope.okPopup = function() {
         formPopup.close();
     };
+
+    //on focus
+  $scope.focus = function() {
+    $scope.focused = false;
+  };
+  //on blr
+  $scope.blur = function() {
+    $scope.focused = true;
+  };
+
 
     function validateEmail(email) {
         var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;

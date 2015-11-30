@@ -9,6 +9,7 @@ appContext.controller("HomeController",
     $rootScope,
     $ionicPlatform,
     $ionicPopup,
+    $window,
     $ionicModal) {
 
       var signupPopup ;
@@ -18,7 +19,8 @@ appContext.controller("HomeController",
      $ionicPlatform.ready(function() {
 
        window.currentStatePatern = $rootScope.curentState = $state.current;
-
+       $scope.width = $window.innerWidth;
+       $scope.height = $window.innerHeight - 13;
         $ionicLoading.show({
             template: 'Loading...'
         });
@@ -36,7 +38,7 @@ appContext.controller("HomeController",
             },
             "onRegister": function(data) {
                 var deviceToken;
-                //deviceToken = $cordovaDevice.getUUID();
+                deviceToken = $cordovaDevice.getUUID();
                 localStorage.setItem('deviceId', data.token);
                 localStorage.setItem('deviceToken', deviceToken);
                 RunService.register(deviceToken, data.token, "", "", "")
