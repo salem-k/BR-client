@@ -38,6 +38,9 @@ p {
     line-height: 13px;
     color: #000000;
 }
+.display-text{
+  font-size: 50%;
+}
 label.item.has-error {
     border-bottom: 2px solid red;
 }

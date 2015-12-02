@@ -20,6 +20,7 @@ appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTran
      * check if file exist
      */
     var fileExist = function(fileName, callBack) {
+
       isImage('./img/'+fileName).then(function(exist) {
           if (exist) {
             callBack('./img/'+fileName);
@@ -42,7 +43,7 @@ appContext.factory("HomeService", function($http, $cordovaFile, $cordovaFileTran
 
                     });
             }else{
-              callBack("img/ionic.png");
+              callBack("img/nasa_rodina_banner.jpg");
             }
           }
       });

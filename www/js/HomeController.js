@@ -10,6 +10,7 @@ appContext.controller("HomeController",
     $ionicPlatform,
     $ionicPopup,
     $window,
+    $cordovaInAppBrowser,
     $ionicModal) {
 
       var signupPopup ;
@@ -19,8 +20,7 @@ appContext.controller("HomeController",
      $ionicPlatform.ready(function() {
 
        window.currentStatePatern = $rootScope.curentState = $state.current;
-       $scope.width = $window.innerWidth;
-       $scope.height = $window.innerHeight - 13;
+
         $ionicLoading.show({
             template: 'Loading...'
         });
@@ -75,4 +75,13 @@ appContext.controller("HomeController",
         netErr.close();
     };
 
+/*
+    $scope.surf = function(){
+        var options ={
+          URL : "http://google.fr",
+          target : "_blank",
+        };
+        $cordovaInAppBrowser.open(options)
+    };
+*/
 });

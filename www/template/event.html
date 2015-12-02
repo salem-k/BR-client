@@ -1,20 +1,19 @@
 <ion-view  ng-controller="EventController" ng-style="{'background-color':bgColor }">
   <ion-content>
     <!-- Normal Events-->
-    <div  ng-if=" ! isForm">
+    <div  ng-if=" ! isForm && !banner " >
 
-   <img class="rotate90"  ng-if="show" height="{{height}}" width="{{width}}" ng-src="{{ imgSrc }}" />
-    <p  ng-style="{'color' : textColor }">
-      {{text}}
-    </p>
+   <img style="margin-top : {{marginTop}}px;margin-left : {{marginLeft}}px;max-width:{{maxWidth}}px !important;max-height:{{maxHeight}}px !important;width:{{width}}px;height:{{height}}px"  ng-if="show" ng-src="{{ imgSrc }}" />
+    <p class="display-text" ng-style="{'color' : textColor }" style="margin-top:{{marginTopText}}px;font-size:200%;line-height: 150%;"> {{text}}</p>
     <label style="display:none">{{soundPlaying}}</label>
     </div>
 
     <!-- FORM Events -->
-    <form name="signupForm" ng-if=" isForm && ! alreadySigned" ng-submitted style="height:100%">
+    <form name="signupForm" ng-if=" isForm && ! alreadySigned && !banner" ng-submitted style="height:100%">
     <div  style="height:100%">
+
       <h2  class="signup-h2"> Sign up </h2>
-      <div class="list list-inset" style=" margin-top: 65px;">
+      <div class="list list-inset" style="margin-top: 65px;">
 
 
 
@@ -51,7 +50,7 @@
     </div>
     </form>
     <!-- already subscribed -->
-    <div ng-if="isForm &&  alreadySigned" class="alreadySigned" >
+    <div ng-if="isForm &&  alreadySigned && !banner" class="alreadySigned" >
       <h2 align="center" class="nasa-rodina">NA&#352;A RODINA</h2>
       <p >
         21:00 - 21:50 : N30 Akustika
@@ -71,15 +70,25 @@
       <p >
         02:15 - 02:45 : Balans
       </p>
-      <p >
+      <p>
         02:45 - 05:00 Natty youth sound
       </p>
     </div>
-    <div ng-if="isForm &&  alreadySigned" class="countdonw">
+    <div ng-if="isForm &&  alreadySigned && !banner" class="countdonw">
       <div>
 
         <h1 align="center" class="party-start" >party start in </h1>
-        <h1 align="center" class="counter"> {{diffTime | countdonw}}</h1>
+        <h1 align="center" class="counter"> {{ diffTime | countdonw }}</h1>
+      </div>
+    </div>
+    <div ng-if=" !isForm &&  !alreadySigned && banner" >
+      <div >
+        <img ng-src="{{imgBanner}}" width="100%"/>
+      </div>
+      <div>
+        <p>
+          {{text}}
+        </p>
       </div>
     </div>
 
