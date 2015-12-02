@@ -10,7 +10,7 @@ var appContext = angular.module('starter', ['ionic', 'ionic.service.core', 'ngCo
             window.addEventListener('native.keyboardshow', function() {
                 document.body.classList.add('keyboard-open');
             });
-            window.plugins.insomnia.keepAwake();
+            //window.plugins.insomnia.keepAwake();
 
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -57,7 +57,7 @@ var appContext = angular.module('starter', ['ionic', 'ionic.service.core', 'ngCo
                     if (0 == parseInt(hours) && 0 == parseInt(minutes) && 0 == parseInt(secondes)) {
                         return 0;
                     } else {
-                        result = parseInt(hours) + "h" + parseInt(minutes)/*+ "min" + parseInt(secondes)*/;
+                        result = parseInt(hours) + "h " + parseInt(minutes)+ "mn " + parseInt(secondes)+"s";
                         return result;
                     }
 

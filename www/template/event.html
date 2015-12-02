@@ -44,9 +44,11 @@
                required />
       </label>
      </div>
-     <div ng-if="focused" class="padding" style="position: fixed;width: 100%;bottom: 0;">
-       <input  type="submit" value="Create" ng-click="signup(signupForm)" class="button btnFooter button-block button-positive" style="margin-bottom: 15px;" >
-     </div>
+    <!--  <div ng-if="focused" class="padding" style="position: fixed;width: 100%;bottom: 0;"> -->
+       
+         <input  type="submit" value="Create" ng-click="signup(signupForm)" class="button btnFooter button-block button-positive" >
+
+     <!-- </div> -->
     </div>
     </form>
     <!-- already subscribed -->
@@ -59,13 +61,13 @@
         22:05 - 23:00 : Riddim Colony
       </p>
       <p >
-        23:15 - 00:30 : UNITED FLAVOUR
+        23:15 - 00:30 : United Flavour
       </p>
       <p >
-        00:30 - 01:15 : JAH OVA EVIL & MELLOW MOOD
+        00:30 - 01:15 : Jah Ova Evil & Mellow Mood
       </p>
       <p >
-        01:30 - 02:15 : Fireson Bantu (KE)
+        01:30 - 02:15 : Fireson Bantu
       </p>
       <p >
         02:15 - 02:45 : Balans
@@ -76,8 +78,7 @@
     </div>
     <div ng-if="isForm &&  alreadySigned && !banner" class="countdonw">
       <div>
-
-        <h1 align="center" class="party-start" >party start in </h1>
+        <h1 align="center" class="party-start" >PARTY IS STARTING IN </h1>
         <h1 align="center" class="counter"> {{ diffTime | countdonw }}</h1>
       </div>
     </div>
@@ -86,11 +87,10 @@
         <img ng-src="{{imgBanner}}" width="100%"/>
       </div>
       <div>
-        <p>
+        <p ng-bind-html="text" style="text-align:justify !important;margin:12px">
           {{text}}
         </p>
       </div>
     </div>
-
   </ion-content >
 </ion-view>

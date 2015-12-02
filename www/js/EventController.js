@@ -1,4 +1,4 @@
-appContext.controller("EventController", function(HomeService, $scope, $interval, $ionicLoading, $cordovaMedia, $ionicPlatform, $window, $ionicPopup, RunService, $cordovaInAppBrowser) {
+appContext.controller("EventController", function(HomeService, $scope, $interval, $ionicLoading, $cordovaMedia, $ionicPlatform, $window, $ionicPopup, RunService, $cordovaInAppBrowser, $sce) {
 
     $ionicLoading.show({
         template: 'Loading...'
@@ -34,7 +34,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
             var label = data[0];
             var text = data[1];
             var image = data[4];
-            //var image = "jah_ova_evil_banner.jpg";
+            //var image = "xx.jpg";
             var sound = data[5];
             var partyTime = data[6];
 
@@ -42,8 +42,8 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
             $scope.bgColor = data[3];
 
 
-            if ("DISPLAYARTIST" == label.toUpperCase()) {
-                $scope.text = text;
+            if ( 0 <= label.toUpperCase().indexOf("DISPLAYARTIST")) {
+                $scope.text =  $sce.trustAsHtml(text);
                 $scope.alreadySigned = false;
                 $scope.isForm = false;
                 $scope.isCountdown = false;
@@ -177,6 +177,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 console.warn("3333333333333333");
                 $scope.isForm = false;
                 $scope.banner = false;
+                $scope.text = "";
                 HomeService.fileExist(image, function(fileName) {
                     if ("404" == fileName) {
                         HomeService.downloadImg(image, "http://ec2-52-33-106-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + image, function(imgURL) { //prod
@@ -247,6 +248,8 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 console.warn("4444444444444444444444");
                 $scope.isForm = false;
                 $scope.banner = false;
+                $scope.text = "";
+                $scope.show = true;
                 HomeService.fileExist(image, function(fileName) {
 
                     if ("404" == fileName) {
@@ -276,6 +279,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 console.warn("555555555555555555");
                 $scope.isForm = false;
                 $scope.banner = false;
+                $scope.text = "";
                 HomeService.fileExist(sound, function(fileName) {
                     /** if file does not exist */
                     if ("404" == fileName) {
@@ -321,6 +325,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 console.warn("666666666666666666666666");
                 $scope.isForm = false;
                 $scope.banner = false;
+                $scope.text = "";
                 callServer();
 
             } else if ("" != text && "" != image && "" != sound) {
@@ -421,6 +426,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                     $scope.alreadySigned = true;
                     $ionicLoading.hide();
                 }).error(function(response) {
+
                     $ionicLoading.hide();
                     alert("Network Error");
                 });
@@ -464,13 +470,13 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
 
             } else if (wRatio >= 1 && hRatio < 1) {
                 console.warn("wRatio >= 1 && hRatio < 1");
-                $scope.height = (this.height);
+                $scope.height = (this.height * hRatio);
                 $scope.width = (this.width / wRatio);
                 $scope.marginTop = ($window.innerHeight - $scope.height) / 2
 
             } else if (wRatio < 1 && hRatio >= 1) { //valid
                 $scope.height = (this.height / hRatio);
-                $scope.width = (this.width);
+                $scope.width = (this.width * wRatio);
                 $scope.marginLeft = ($window.innerWidth - $scope.width) / 2;
 
 

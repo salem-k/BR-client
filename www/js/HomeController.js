@@ -38,7 +38,7 @@ appContext.controller("HomeController",
             },
             "onRegister": function(data) {
                 var deviceToken;
-                deviceToken = $cordovaDevice.getUUID();
+                //deviceToken = $cordovaDevice.getUUID();
                 localStorage.setItem('deviceId', data.token);
                 localStorage.setItem('deviceToken', deviceToken);
                 RunService.register(deviceToken, data.token, "", "", "")
