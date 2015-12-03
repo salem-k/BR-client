@@ -3,7 +3,7 @@
     <!-- Normal Events-->
     <div  ng-if=" ! isForm && !banner " >
 
-   <img style="margin-top : {{marginTop}}px;margin-left : {{marginLeft}}px;max-width:{{maxWidth}}px !important;max-height:{{maxHeight}}px !important;width:{{width}}px;height:{{height}}px"  ng-if="show" ng-src="{{ imgSrc }}" />
+   <img   ng-if=" show " style="margin-top : {{marginTop}}px;margin-left : {{marginLeft}}px;max-width:{{maxWidth}}px !important;max-height:{{maxHeight}}px !important;width:{{width}}px;height:{{height}}px" ng-src="{{ imgSrc }}" />
     <p class="display-text" ng-style="{'color' : textColor }" style="margin-top:{{marginTopText}}px;font-size:200%;line-height: 150%;"> {{text}}</p>
     <label style="display:none">{{soundPlaying}}</label>
     </div>
@@ -44,7 +44,7 @@
                required />
       </label>
      </div>
-<div ng-if="focused" class="padding" style="position: fixed;width: 100%;bottom: 0;">
+     <div ng-if="focused" class="padding" style="position: fixed;width: 100%;bottom: 0;">
 
          <input  type="submit" value="Create" ng-click="signup(signupForm)" class="button btnFooter button-block button-positive" >
      </div>

@@ -1,4 +1,4 @@
-appContext.controller("EventController", function(HomeService, $scope, $interval, $ionicLoading, $cordovaMedia, $ionicPlatform, $window, $ionicPopup, RunService, $cordovaInAppBrowser, $sce) {
+appContext.controller("EventController", function(HomeService, $scope, $interval, $ionicLoading, $cordovaMedia, $ionicPlatform, $window, $ionicPopup, RunService, $cordovaInAppBrowser, $sce, $rootScope, $state) {
 
     $ionicLoading.show({
         template: 'Loading...'
@@ -14,6 +14,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
     $scope.isCountdown = false;
     $scope.focused = true;
     $scope.banner = false;
+
 
 
     $ionicPlatform.ready(function() {
@@ -72,7 +73,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
             } else if ("FORM" == label.toUpperCase()) {
 
                 $scope.text = "";
-                $scope.show = false;
+                $rootScope.show = false;
                 $scope.bgColor = "#FFFFFF";
 
                 if (null == localStorage.getItem(text.toUpperCase())) {
@@ -119,6 +120,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 $scope.text = text;
                 $scope.isForm = false;
                 $scope.banner = false;
+                $rootScope.show = false;
                 console.warn("1111111111111111111111");
                 HomeService.fileExist(sound, function(fileName) {
                     /** if file does not exist */
@@ -162,15 +164,22 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                         callServer();
                     }
                 });
-            } else if ("" != text && "" == image && "" == sound) {
-
+            } else if ( text && "" == image && "" == sound) {
+                $rootScope.show = false;
                 console.warn("2222222222222222222");
                 $scope.isForm = false;
                 $scope.banner = false;
                 $scope.text = text;
-                $scope.show = false;
+                if ( window.localStorage.getItem("canReload") == true) {
+                  $window.location.reload();
+                  window.localStorage.setItem("canReload",false);
+                }
+
+                //alert(JSON.stringify($rootScope.show));
                 if (document.querySelector('.display-text') != null)
                     $scope.marginTopText = calculateMargin((($window.innerHeight - document.querySelector('.display-text').clientHeight) / 2));
+
+                $rootScope.show = false;
                 callServer();
 
             } else if ("" == text && "" != image && "" != sound) {
@@ -184,7 +193,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                             //HomeService.downloadImg(image, "http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + image, function(imgURL) { //dev
                             if (imgDisplaying != imgURL) {
                                 $scope.imgSrc = imgURL + "?" + new Date().getTime();
-                                $scope.show = true;
+                                $rootScope.show = true;
                                 $scope.text = "";
                             }
 
@@ -194,7 +203,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                     } else {
                         if (imgDisplaying != fileName) {
                             $scope.imgSrc = fileName + "?" + new Date().getTime();
-                            $scope.show = true;
+                            $rootScope.show = true;
                             $scope.text = "";
                         }
                         imgDisplaying = fileName;
@@ -246,10 +255,11 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 });
             } else if ("" == text && "" != image && "" == sound) {
                 console.warn("4444444444444444444444");
+                  window.localStorage.setItem("canReload",true);
                 $scope.isForm = false;
                 $scope.banner = false;
                 $scope.text = "";
-                $scope.show = true;
+                $rootScope.show = true;
                 HomeService.fileExist(image, function(fileName) {
 
                     if ("404" == fileName) {
@@ -258,7 +268,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                             //HomeService.downloadImg(image, "http://ec2-52-25-133-148.us-west-2.compute.amazonaws.com/BRbackoffice/web/uploads/" + image, function(imgURL) { //dev
                             if (imgDisplaying != imgURL) {
                                 $scope.imgSrc = imgURL + "?" + new Date().getTime();
-                                $scope.show = true;
+                                $rootScope.show = true;
                             }
 
 
@@ -269,7 +279,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                         getNaturalDimension(fileName);
                         if (imgDisplaying != fileName) {
                             $scope.imgSrc = fileName + "?" + new Date().getTime();
-                            $scope.show = true;
+                            $rootScope.show = true;
                         }
                         imgDisplaying = fileName;
                         callServer();
@@ -280,6 +290,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 $scope.isForm = false;
                 $scope.banner = false;
                 $scope.text = "";
+                $rootScope.show = false;
                 HomeService.fileExist(sound, function(fileName) {
                     /** if file does not exist */
                     if ("404" == fileName) {
@@ -326,6 +337,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 $scope.isForm = false;
                 $scope.banner = false;
                 $scope.text = "";
+                $rootScope.show = false;
                 callServer();
 
             } else if ("" != text && "" != image && "" != sound) {
@@ -335,7 +347,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 $scope.isForm = false;
                 $scope.banner = false;
                 $scope.text = text;
-                $scope.show = false;
+                $rootScope.show = false;
                 HomeService.fileExist(sound, function(fileName) {
                     /** if file does not exist */
                     if ("404" == fileName) {
@@ -383,7 +395,7 @@ appContext.controller("EventController", function(HomeService, $scope, $interval
                 $scope.isForm = false;
                 $scope.banner = false;
                 $scope.text = text;
-                $scope.show = false;
+                $rootScope.show = false;
                 if (document.querySelector('.display-text') != null)
                     $scope.marginTopText = calculateMargin((($window.innerHeight - document.querySelector('.display-text').clientHeight) / 2));
 

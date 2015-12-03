@@ -16,7 +16,7 @@ appContext.controller("HomeController",
       var signupPopup ;
       var popup;
       var netErr;
-
+      window.localStorage.setItem("canReload",true);
      $ionicPlatform.ready(function() {
 
        window.currentStatePatern = $rootScope.curentState = $state.current;
